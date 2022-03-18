@@ -19,12 +19,12 @@ set_color cb_blue, [0.0039, 0.4510, 0.6980]
 set_color cb_red, [0.8353, 0.3686, 0]
 
 set_view (\
-     0.854641616,    0.183180720,    0.485829622,\
-     0.372584075,    0.435313582,   -0.819562078,\
-    -0.361616105,    0.881445706,    0.303787529,\
-    -0.000320482,   -0.000064177,  -55.288337708,\
-   115.138618469,   95.094169617,   63.693656921,\
-    21.902147293,   88.687347412,  -20.000000000 )
+     0.860981584,    0.030409141,    0.507726848,\
+     0.477145612,    0.297462702,   -0.826941252,\
+    -0.176178798,    0.954241812,    0.241602108,\
+    -0.002087608,   -0.001038249, -163.398727417,\
+   110.933326721,   90.406120300,   52.317306519,\
+  -936.189697266, 1262.999389648,   20.000000000 )
 
 # Start empty and add things
 hide everything
@@ -48,35 +48,20 @@ set ray_trace_mode, 1
 set cartoon_fancy_helices, 1
 set cartoon_highlight_color = grey30
 
-sele s3_s4, resi 192-232
+sele vsd_not_s3_s4, resi 131-208 or resi 220-232
+show cartoon, vsd_not_s3_s4
+color white, vsd_not_s3_s4
+
+sele s3_s4, resi 209-219
 show cartoon, s3_s4
-color white, s3_s4
+color violet, s3_s4
 
-sele loop, resi 203-219
-show sticks, loop and ele h and neighbor (ele n+o)
-
-sele t207s, resi 207
-show sticks, t207s
-hide sticks, t207s and name N or name C or name O
-#show sticks, t207s and ele h and neighbor (ele n+o) # show polar hydrogens
-color cb_green, t207s
-
-sele r219_e208, resi 219 or resid 208
-show sticks, r219_e208
-hide sticks, r219_e208 and name N or name C or name O
-color cyan, r219_e208
-
-sele r203, resi 203
-show sticks, r203
-color white, r203
-
-# Ensure hetero atoms keep their colours
-util.cnc loop
+#set cartoon_transparency, 0.25, vsd_not_s3_s4 # highlight s3_s4
 
 # align frames to specific region
-intra_fit s3_s4, 50
+intra_fit vsd_not_s3_s4, 2
 
 # Set resolution and save image
-frame 1320
+frame 2
 ray 2400,2400
-png ./E208_R219_close_T207S_v2.png
+png ./S3_S4_highlight.png

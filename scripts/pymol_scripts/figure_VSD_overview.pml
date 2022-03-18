@@ -19,12 +19,13 @@ set_color cb_blue, [0.0039, 0.4510, 0.6980]
 set_color cb_red, [0.8353, 0.3686, 0]
 
 set_view (\
-     0.854641616,    0.183180720,    0.485829622,\
-     0.372584075,    0.435313582,   -0.819562078,\
-    -0.361616105,    0.881445706,    0.303787529,\
-    -0.000320482,   -0.000064177,  -55.288337708,\
-   115.138618469,   95.094169617,   63.693656921,\
-    21.902147293,   88.687347412,  -20.000000000 )
+     0.988340676,    0.091031685,    0.121940859,\
+     0.096330322,    0.246051773,   -0.964452803,\
+    -0.117799774,    0.964967728,    0.234416038,\
+    -0.002954572,   -0.000734922, -120.115859985,\
+   111.997718811,   93.468566895,   52.190967560,\
+   -43.240329742,  283.538330078,   20.000000000 )
+
 
 # Start empty and add things
 hide everything
@@ -48,35 +49,33 @@ set ray_trace_mode, 1
 set cartoon_fancy_helices, 1
 set cartoon_highlight_color = grey30
 
-sele s3_s4, resi 192-232
-show cartoon, s3_s4
-color white, s3_s4
+#sele s1, resi 131-147
+#set transparency, 0.5, s1
+#show cartoon, s1
+#color white, s1
 
-sele loop, resi 203-219
-show sticks, loop and ele h and neighbor (ele n+o)
+sele vsd, resi 131-232
+show cartoon, vsd
+color white, vsd
 
-sele t207s, resi 207
-show sticks, t207s
-hide sticks, t207s and name N or name C or name O
-#show sticks, t207s and ele h and neighbor (ele n+o) # show polar hydrogens
-color cb_green, t207s
+sele pos_charges, vsd and (resn ARG or resn LYS) and not (name C or name N or name O)
+show sticks, pos_charges #and ele h and neighbor (ele n+o)
+color cb_blue, pos_charges
 
-sele r219_e208, resi 219 or resid 208
-show sticks, r219_e208
-hide sticks, r219_e208 and name N or name C or name O
-color cyan, r219_e208
+sele neg_charges, vsd and (resn GLU or resn ASP) and not (name C or name N or name O)
+show sticks, neg_charges #and ele h and neighbor (ele n+o)
+color cb_red, neg_charges
 
-sele r203, resi 203
-show sticks, r203
-color white, r203
+set cartoon_transparency, 0.5, resi 131-148 # hide s1 helix
 
 # Ensure hetero atoms keep their colours
-util.cnc loop
+util.cnc pos_charges
+util.cnc neg_charges
 
 # align frames to specific region
-intra_fit s3_s4, 50
+intra_fit vsd, 2
 
 # Set resolution and save image
-frame 1320
+frame 2
 ray 2400,2400
-png ./E208_R219_close_T207S_v2.png
+png ./VSD_overview_WT.png

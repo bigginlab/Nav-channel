@@ -82,11 +82,6 @@ util.cnc loop
 intra_fit s3_s4, 50
 
 # Set resolution and save image
-#frame 50
-#frame 191
-#ray 2400,2400
-#png ./E208_T207_hbond_WT.png
-
 frame 1079
 ray 2400,2400
-png ./E208_T207_hbond2_WT.png
+png ./E208_T207_hbond_WT_pos_dihedral.png
